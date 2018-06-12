@@ -11804,7 +11804,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Import libraries necessary for this project</span>
@@ -11862,7 +11862,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Display a description of the dataset</span>
@@ -12005,7 +12005,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Select three indices of your choice you wish to sample from the dataset</span>
@@ -12162,7 +12162,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Make a copy of the DataFrame, using the &#39;drop&#39; function to drop the given feature</span>
@@ -12227,7 +12227,8 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
-<p>I picked Grocery since I didn't really feel like it was a clear distinction between it and "Fresh" and figured that it might be a useless distinction. It gave a high score so I felt like I was right, but then I also tested on "Fresh" and it gave a negative score indicating that it couldn't be predicted by the other columns. My conclusion is that "Grocery" is not a useless distinction here, but that "Fresh" certainly is.</p>
+<p>I picked Grocery since I didn't really feel like it was a clear distinction between it and "Fresh" and figured that it might be a useless distinction. It gave a high R^2 score which indicates that actually it correlates highly with some of the other features and so this feature could possibly be skipped as long as the correlated features are kept.</p>
+<p>I also tested on "Fresh" and it gave a low negative score indicating that it by itself doesn't fit the rest of the data and might be quite important to include.</p>
 
 </div>
 </div>
@@ -12243,7 +12244,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Produce a scatter matrix for each pair of features in the data</span>
@@ -12306,7 +12307,7 @@ Since the Delicatessen has the lowest values, the rightmost column gives us the 
 <li>Detergents_paper and Milk</li>
 </ul>
 <p>The scatter plots confirm that Grocery is a dependent category but rather than it correlates to Detergent_paper very much and Milk also, but not at all with "Fresh" like I imagined.</p>
-<p>There does seem to be normal distributions for all the categories, just that the data is skewed (the center is shifted) with the average very close to zero. In all cases the median (50% mark) is much lower than the average - often around half or even lower for Detergents_paper.</p>
+<p>There does seem to be normal distributions for all the categories, just that the data is skewed (the center is shifted) with the average very close to zero. In all cases the median (50% mark) is much lower than the average - often around half or even lower for Detergents_paper. Because of this very large positive skew, it will be necessary to pre-process the data to get good results during model training.</p>
 
 </div>
 </div>
@@ -12336,7 +12337,7 @@ Since the Delicatessen has the lowest values, the rightmost column gives us the 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Scale the data using the natural logarithm</span>
@@ -12388,7 +12389,7 @@ Since the Delicatessen has the lowest values, the rightmost column gives us the 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Display the log-transformed sample data</span>
@@ -12495,7 +12496,7 @@ Once you have performed this implementation, the dataset will be stored in the v
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># For each feature find the data points with extreme high or low values</span>
@@ -13317,8 +13318,9 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
-<p>I chose to remove three data points 65, 75, 154 which were identified as outliers in 2 or more features and are almost certainly outliers. Even when I increased the IQR multiplier to 1.8 they all still appeared as an outlier in at least one feature, so definitely should be removed.</p>
+<p>I chose to remove five data points 65, 75, 154 which were identified as outliers in 2 or more features and are almost certainly outliers. Even when I increased the IQR multiplier to 1.8 they all still appeared as an outlier in at least one feature, so definitely should be removed.</p>
 <p>I also chose to exclude 95, 338 since they still appeared as outliers when I increased the multiplier to 4.0.</p>
+<p>In total I removed 5 data points: 65, 75, 154, 95, 338</p>
 
 </div>
 </div>
@@ -13348,7 +13350,7 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Apply PCA by fitting the good data with the same number of dimensions as features</span>
@@ -13432,7 +13434,7 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Display sample log-data after having a PCA transformation applied</span>
@@ -13536,7 +13538,7 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Apply PCA by fitting the good data with only two dimensions</span>
@@ -13569,7 +13571,7 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Display sample log-data after applying PCA transformation in two dimensions</span>
@@ -13652,7 +13654,7 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Create a biplot</span>
@@ -13669,13 +13671,13 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[16]:</div>
+<div class="prompt output_prompt">Out[14]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x10b4626d0&gt;</pre>
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1094dec10&gt;</pre>
 </div>
 
 </div>
@@ -13769,7 +13771,7 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Apply your clustering algorithm of choice to the reduced data </span>
@@ -13895,7 +13897,7 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Display the results of the clustering from implementation</span>
@@ -13945,7 +13947,7 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Inverse transform the centers</span>
@@ -14071,7 +14073,7 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Display the predictions</span>
@@ -14151,6 +14153,7 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 <p><strong>Answer:</strong></p>
 <p>It would seem that customers in Segment 1 with the very high spending on fresh foods would be severaly impacted by the changed to fewer deliveries per week. I imagine these to be restaurants serving freshly cooked meals probably with limited storage space. Serving 2-3 day old fruits and vegetables might not be an options for them.</p>
 <p>Segment 0 with the high Milk (which lasts over a week), Groceries and Detergents/paper should be much less sensitive to fewer delivery options and would probably not be affected much by less regular deliveries.</p>
+<p>In order to test the change, the company could chose a sample from each segment (say 10% but minimum 100 customers to ensure the results are statistically significant) and change the delivery schedule for just those clients. They could then run a survey on those sample customers AND the same number of custmers from the unchanged delivery group to see if the new schedule is problematic or not. An alternative to the survey is to measure whether customers spend more or not (but this could take months to give results). If the customers are as happy (or close) with the less frequent and cheaper delivery schedule, then the company can switch to that for all customers in that segment.</p>
 
 </div>
 </div>
@@ -14190,7 +14193,7 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Display the clustering results based on &#39;Channel&#39; data</span>
